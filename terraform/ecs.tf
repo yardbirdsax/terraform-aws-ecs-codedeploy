@@ -145,7 +145,8 @@ resource aws_ecs_service ecs_service {
   lifecycle {
     ignore_changes = [
       load_balancer,
-      task_definition
+      task_definition,
+      network_configuration
     ]
   }
 }

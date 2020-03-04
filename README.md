@@ -28,8 +28,9 @@ This repo documents my learning how to use ECS with AWS CodeDeploy.
 - Tag and push the image
 
   ```bash
-  DOCKER_TAG=`aws sts get-caller-identity | jq '.Account' -r`.dkr.ecr.us-east-2.amazonaws.com; docker tag nginx-test:1.0 $DOCKER_TAG/nginx-test:1.0
-  docker push $DOCKER_TAG
+  DOCKER_TAG=`aws sts get-caller-identity | jq '.Account' -r`.dkr.ecr.us-east-2.amazonaws.com 
+  docker tag nginx-test:1.0 $DOCKER_TAG/nginx-test:1.0
+  docker push $DOCKER_TAG/nginx-test:1.0
   ```
 
 ## Deploying infrastructure
@@ -61,3 +62,8 @@ This repo documents my learning how to use ECS with AWS CodeDeploy.
   ```bash
   cd terraform
   reset && terraform apply -var docker_tag=2.0
+  ```
+
+  This should only change the task definition.
+
+- Start and monitor the CodeDeploy deployment.

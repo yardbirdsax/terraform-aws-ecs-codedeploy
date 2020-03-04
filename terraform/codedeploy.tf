@@ -41,8 +41,9 @@ resource aws_iam_role_policy_attachment codedeploy_role_policy_attachment {
   role = aws_iam_role.codedeploy_role.name
 }
 
-resource aws_s3_bucket codebuild_s3 {
+resource aws_s3_bucket codedeploy_s3 {
   bucket = "${local.deployment_name}-${data.aws_caller_identity.current.account_id}"
+  force_destroy = true
 }
 
 resource aws_codedeploy_deployment_group deploy_group {
@@ -82,4 +83,8 @@ resource aws_codedeploy_deployment_group deploy_group {
     deployment_option = "WITH_TRAFFIC_CONTROL"
     deployment_type = "BLUE_GREEN"
   }
+}
+
+output s3_bucket_name {
+  value = aws_s3_bucket.codedeploy_s3.bucket
 }
