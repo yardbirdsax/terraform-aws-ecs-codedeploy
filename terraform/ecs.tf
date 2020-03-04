@@ -132,7 +132,7 @@ resource aws_ecs_service ecs_service {
     target_group_arn = aws_lb_target_group.target_group_blue.arn
   }
   network_configuration {
-    subnets = data.aws_subnet.subnet.*.id
+    subnets = var.subnet_ids
     assign_public_ip = true
     security_groups = [aws_security_group.security_group_web.id]
   }

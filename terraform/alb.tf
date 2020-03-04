@@ -1,7 +1,7 @@
 resource aws_lb elb {
   name = local.deployment_name
   load_balancer_type = "application"
-  subnets = data.aws_subnet.subnet.*.id
+  subnets = var.subnet_ids
   enable_cross_zone_load_balancing = true
   security_groups = [aws_security_group.security_group_web.id]
 }
@@ -17,7 +17,7 @@ resource aws_lb_target_group target_group_blue {
   }
   protocol = "HTTP"
   port = 80
-  vpc_id = data.aws_vpc.vpc.id
+  vpc_id = var.vpc_id
 }
 
 resource aws_lb_target_group target_group_green {
@@ -31,7 +31,7 @@ resource aws_lb_target_group target_group_green {
   }
   protocol = "HTTP"
   port = 80
-  vpc_id = data.aws_vpc.vpc.id
+  vpc_id = var.vpc_id
 }
 
 resource aws_lb_listener elb_listener {
