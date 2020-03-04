@@ -66,7 +66,7 @@ resource aws_ecs_task_definition ecs_task {
       "cpu": 256,
       "environment": [],            
       "essential": true,
-      "image": "${data.aws_ecr_repository.ecr_repo.repository_url}:1.0",
+      "image": "${data.aws_ecr_repository.ecr_repo.repository_url}:${var.docker_tag}",
       "logConfiguration": {
           "logDriver": "awslogs",
           "options": {
@@ -95,6 +95,11 @@ JSON
   network_mode = "awsvpc"
   execution_role_arn = aws_iam_role.ecs_task_role.arn
   
+}
+
+resource local_file task_def_file {
+  content = templatefile("${path.module}/appspec.yml", {task_arn = aws_ecs_task_definition.ecs_task.arn, deployment_name = local.deployment_name})
+  filename = "${path.module}/build/appspec.yml"
 }
 
 resource aws_security_group security_group_web {
@@ -131,7 +136,7 @@ resource aws_ecs_service ecs_service {
     assign_public_ip = true
     security_groups = [aws_security_group.security_group_web.id]
   }
-  desired_count = 1
+  desired_count = 2
 
   depends_on = [
     aws_lb_listener.elb_listener
@@ -139,7 +144,8 @@ resource aws_ecs_service ecs_service {
 
   lifecycle {
     ignore_changes = [
-      load_balancer
+      load_balancer,
+      task_definition
     ]
   }
 }

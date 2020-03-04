@@ -16,7 +16,7 @@ This repo documents my learning how to use ECS with AWS CodeDeploy.
 - Generate the local Docker image
   
   ```bash
-  docker build . -t nginx-test:1.0
+  docker build . -t nginx-test:1.0 --build-arg version=2.0
   ```
 
 - Log in to ECR in your account
@@ -42,3 +42,22 @@ This repo documents my learning how to use ECS with AWS CodeDeploy.
   cd terraform
   terraform apply -auto-approve
   ```
+
+## Creating a second version
+
+- Build and push a new Docker image
+
+  ```bash
+  cd ..
+  docker build . -t nginx-test:2.0 --build-arg version=2.0
+  DOCKER_TAG=`aws sts get-caller-identity | jq '.Account' -r`.dkr.ecr.us-east-2.amazonaws.com 
+  docker tag nginx-test:2.0 $DOCKER_TAG/nginx-test:2.0
+  $(aws ecr get-login --no-include-email)
+  docker push $DOCKER_TAG/nginx-test:2.0
+  ```
+
+- Apply a new Terraform config with the new version
+
+  ```bash
+  cd terraform
+  reset && terraform apply -var docker_tag=2.0

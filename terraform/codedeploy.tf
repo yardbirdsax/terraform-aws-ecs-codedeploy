@@ -1,3 +1,5 @@
+data aws_caller_identity current {}
+
 resource aws_codedeploy_app app {
   name = local.deployment_name
   compute_platform = "ECS"
@@ -10,7 +12,7 @@ resource aws_codedeploy_deployment_config deploy_config {
     type = "TimeBasedLinear"
     time_based_linear {
       interval = 1
-      percentage = 10
+      percentage = 50
     }
   }
 }
@@ -37,6 +39,10 @@ JSON
 resource aws_iam_role_policy_attachment codedeploy_role_policy_attachment {
   policy_arn = "arn:aws:iam::aws:policy/AWSCodeDeployRoleForECS"
   role = aws_iam_role.codedeploy_role.name
+}
+
+resource aws_s3_bucket codebuild_s3 {
+  bucket = "${local.deployment_name}-${data.aws_caller_identity.current.account_id}"
 }
 
 resource aws_codedeploy_deployment_group deploy_group {
