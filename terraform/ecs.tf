@@ -35,7 +35,7 @@ JSON
 }
 
 resource aws_iam_role_policy ecs_task_policy {
-  name = "nginx-testPolicy"
+  name = "${var.deployment_name}-TaskPolicy"
   role = aws_iam_role.ecs_task_role.name
   policy = <<JSON
 {
