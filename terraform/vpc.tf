@@ -1,5 +1,6 @@
 data aws_vpc vpc {
   default = true
+  count = var.vpc_id == "" ? 1 : 0
 }
 
 data aws_availability_zones azs {
@@ -7,7 +8,7 @@ data aws_availability_zones azs {
 }
 
 data aws_subnet subnet {
-  count = length(data.aws_availability_zones.azs.names)
-  vpc_id = data.aws_vpc.vpc.id
+  count = var.vpc_id == "" ? length(data.aws_availability_zones.azs.names) : 0
+  vpc_id = data.aws_vpc.vpc[0].id
   availability_zone = data.aws_availability_zones.azs.names[count.index]
 }
