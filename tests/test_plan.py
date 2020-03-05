@@ -46,3 +46,6 @@ class TestPlan(unittest.TestCase):
   
   def test_iam_policy_name(self):
     assert self.tf_output.resources['aws_iam_role_policy.ecs_task_policy']['values']['name'] == f"{self.deployment_name}-TaskPolicy"
+
+  def test_security_group_vpc_id(self):
+    assert self.tf_output.resources['aws_security_group.security_group_web']['values']['vpc_id'] == self.vpc_id

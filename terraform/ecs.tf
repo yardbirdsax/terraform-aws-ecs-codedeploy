@@ -121,6 +121,9 @@ resource aws_security_group security_group_web {
     to_port = 0
     protocol = "-1"
   }
+
+  vpc_id = local.vpc_id
+  
 }
 
 resource aws_ecs_service ecs_service {

@@ -12,3 +12,7 @@ data aws_subnet subnet {
   vpc_id = data.aws_vpc.vpc[0].id
   availability_zone = data.aws_availability_zones.azs.names[count.index]
 }
+
+locals {
+  vpc_id = var.vpc_id == "" ? data.aws_vpc.vpc[0].id : var.vpc_id
+}
