@@ -69,7 +69,7 @@ resource aws_ecs_task_definition ecs_task {
 [
   {
       "cpu": 256,
-      "environment": [],            
+      "environment":${jsonencode(var.container_environment_variables)},            
       "essential": true,
       "image": "${local.container_image_name}:${var.container_image_tag}",
       "logConfiguration": {

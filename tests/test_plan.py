@@ -12,6 +12,11 @@ class TestPlan(unittest.TestCase):
   container_image_name = "nginx"
   container_image_tag = "latest"
   certificate_arn = "arn:aws:cert:something"
+
+  env_var_1_name = "MY_FIRST_VAR"
+  env_var_1_value = "VALUE"
+  env_var_2_name = "MY_SECOND_VAR"
+  env_var_2_value = "VALUE2"
   
   @classmethod
   def setUpClass(self):
@@ -49,3 +54,11 @@ class TestPlan(unittest.TestCase):
 
   def test_security_group_vpc_id(self):
     assert self.tf_output.resources['aws_security_group.security_group_web']['values']['vpc_id'] == self.vpc_id
+  
+  def test_ecs_task_uses_vars(self):
+    container_defs = json.loads(self.tf_output.resources["aws_ecs_task_definition.ecs_task"]["values"]["container_definitions"])
+    assert len(container_defs[0]['environment']) == 2
+    assert container_defs[0]['environment'][0]['name'] == self.env_var_1_name
+    assert container_defs[0]['environment'][1]['name'] == self.env_var_2_name
+    assert container_defs[0]['environment'][0]['value'] == self.env_var_1_value
+    assert container_defs[0]['environment'][1]['value'] == self.env_var_2_value

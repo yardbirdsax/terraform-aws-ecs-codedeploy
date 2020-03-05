@@ -10,6 +10,17 @@ variable container_image_tag {
   description = "The tag of the Docker image to use."
 }
 
+variable container_environment_variables {
+  type = list(
+    object({
+      name = string
+      value = string
+    })
+  )
+  description = "An array of environment variable names and values to be passed in to the container definition."
+  default = []
+}
+
 variable vpc_id {
   type = string
   default = ""
