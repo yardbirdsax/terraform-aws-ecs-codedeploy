@@ -16,7 +16,7 @@ resource aws_ecs_cluster ecs_cluster {
 }
 
 resource aws_iam_role ecs_task_role {
-  name = "nginx-testRole"
+  name = "${var.deployment_name}-TaskRole"
   assume_role_policy = <<JSON
 {
   "Version": "2012-10-17",

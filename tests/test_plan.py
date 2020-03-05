@@ -36,3 +36,6 @@ class TestPlan(unittest.TestCase):
   def test_ecs_task_uses_docker_image(self):
     container_defs = json.loads(self.tf_output.resources["aws_ecs_task_definition.ecs_task"]["values"]["container_definitions"])
     assert container_defs[0]["image"] == f"{self.container_image_name}:{self.container_image_tag}"
+
+  def test_iam_role_name(self):
+    assert self.tf_output.resources['aws_iam_role.ecs_task_role']['values']['name'] == f"{self.deployment_name}-TaskRole"

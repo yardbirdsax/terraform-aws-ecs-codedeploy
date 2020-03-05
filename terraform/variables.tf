@@ -27,3 +27,9 @@ variable deployment_name {
   default = ""
   description = "An arbitrary name for the deployment."
 }
+
+variable tags {
+  type = map(string)
+  default = {}
+  description = "A list of tags to apply to all resources."
+}
