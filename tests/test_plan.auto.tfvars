@@ -7,4 +7,8 @@ container_environment_variables = [
   {name = "MY_FIRST_VAR", value = "VALUE"},
   {name = "MY_SECOND_VAR", value  = "VALUE2"}
 ]
+container_secrets = [
+  {name = "MY_FIRST_SECRET", valueFrom = "ARN:VALUE"},
+  {name = "MY_SECOND_SECRET", valueFrom = "ARN:VALUE2"}
+]
 lb_certificate_arn = "arn:aws:cert:something"

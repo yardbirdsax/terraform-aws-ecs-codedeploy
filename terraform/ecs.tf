@@ -89,7 +89,7 @@ resource aws_ecs_task_definition ecs_task {
           "hostPort": 80,
           "protocol": "tcp"
       }],
-      "secrets": [],
+      "secrets": ${jsonencode(var.container_secrets)},
       "volumesFrom": []
   }
 ]

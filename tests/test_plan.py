@@ -17,6 +17,11 @@ class TestPlan(unittest.TestCase):
   env_var_1_value = "VALUE"
   env_var_2_name = "MY_SECOND_VAR"
   env_var_2_value = "VALUE2"
+
+  secret_var_1_name = "MY_FIRST_SECRET"
+  secret_var_1_value = "ARN:VALUE"
+  secret_var_2_name = "MY_SECOND_SECRET"
+  secret_var_2_value = "ARN:VALUE2"
   
   @classmethod
   def setUpClass(self):
@@ -62,3 +67,11 @@ class TestPlan(unittest.TestCase):
     assert container_defs[0]['environment'][1]['name'] == self.env_var_2_name
     assert container_defs[0]['environment'][0]['value'] == self.env_var_1_value
     assert container_defs[0]['environment'][1]['value'] == self.env_var_2_value
+
+  def test_ecs_task_uses_vars(self):
+    container_defs = json.loads(self.tf_output.resources["aws_ecs_task_definition.ecs_task"]["values"]["container_definitions"])
+    assert len(container_defs[0]['secrets']) == 2
+    assert container_defs[0]['secrets'][0]['name'] == self.secret_var_1_name
+    assert container_defs[0]['secrets'][1]['name'] == self.secret_var_2_name
+    assert container_defs[0]['secrets'][0]['valueFrom'] == self.secret_var_1_value
+    assert container_defs[0]['secrets'][1]['valueFrom'] == self.secret_var_2_value

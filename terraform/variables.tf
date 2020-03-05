@@ -21,6 +21,17 @@ variable container_environment_variables {
   default = []
 }
 
+variable container_secrets {
+  type = list(
+    object({
+      name = string
+      valueFrom = string
+    })
+  )
+  description = "An array of secret names and SSM parameter ARNs to be passed in to the container definition."
+  default = []
+}
+
 variable vpc_id {
   type = string
   default = ""
