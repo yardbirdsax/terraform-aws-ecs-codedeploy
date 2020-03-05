@@ -44,6 +44,8 @@ resource aws_iam_role_policy_attachment codedeploy_role_policy_attachment {
 resource aws_s3_bucket codedeploy_s3 {
   bucket = "${local.deployment_name}-${data.aws_caller_identity.current.account_id}"
   force_destroy = true
+
+  tags = var.tags
 }
 
 resource aws_codedeploy_deployment_group deploy_group {
