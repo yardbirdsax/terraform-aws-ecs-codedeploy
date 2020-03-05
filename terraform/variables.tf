@@ -1,3 +1,9 @@
+variable aws_region_name {
+  type = string
+  default = "us-east-2"
+  description = "The region in which all resources are deployed."
+}
+
 variable container_image_name {
   type = string
   default = ""

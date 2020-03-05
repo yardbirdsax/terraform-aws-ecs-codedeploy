@@ -1,3 +1,4 @@
+aws_region_name = "us-east-1"
 subnet_ids = ["a","b"]
 vpc_id = "abcdef"
 deployment_name = "testdeployment"

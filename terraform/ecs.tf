@@ -1,5 +1,5 @@
 provider aws {
-  region = "us-east-2"
+  region = var.aws_region_name
 }
 
 data aws_ecr_repository ecr_repo {
@@ -75,8 +75,8 @@ resource aws_ecs_task_definition ecs_task {
       "logConfiguration": {
           "logDriver": "awslogs",
           "options": {
-              "awslogs-group": "/ecs/nginx-test",
-              "awslogs-region": "us-east-2",
+              "awslogs-group": "/ecs/${var.deployment_name}",
+              "awslogs-region": "${var.aws_region_name}",
               "awslogs-stream-prefix": "ecs",
               "awslogs-create-group": "true"
           }
