@@ -1,12 +1,16 @@
 import unittest
 import tftest
 from pprint import pprint
+import json
 
 class TestPlan(unittest.TestCase):
 
   tf_dir = "../terraform"
   subnet_ids = ["a","b"]
   vpc_id = "abcdef"
+  deployment_name = "testdeployment"
+  container_image_name = "nginx"
+  container_image_tag = "latest"
   
   @classmethod
   def setUpClass(self):
@@ -25,3 +29,10 @@ class TestPlan(unittest.TestCase):
   def test_ecs_task_uses_subnets(self):
     #pprint(self.tf_output.resources["aws_ecs_service.ecs_service"])
     assert self.tf_output.resources["aws_ecs_service.ecs_service"]["values"]["network_configuration"][0]["subnets"] == self.subnet_ids
+
+  def test_security_group_name(self):
+    assert self.tf_output.resources["aws_security_group.security_group_web"]["values"]["name"] == self.deployment_name
+
+  def test_ecs_task_uses_docker_image(self):
+    container_defs = json.loads(self.tf_output.resources["aws_ecs_task_definition.ecs_task"]["values"]["container_definitions"])
+    assert container_defs[0]["image"] == f"{self.container_image_name}:{self.container_image_tag}"

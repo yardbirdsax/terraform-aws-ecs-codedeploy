@@ -1,6 +1,13 @@
-variable docker_tag {
+variable container_image_name {
   type = string
-  default = "1.0"
+  default = ""
+  description = "The name of the Docker image to use, including the full repository URL if required."
+}
+
+variable container_image_tag {
+  type = string
+  default = "latest"
+  description = "The tag of the Docker image to use."
 }
 
 variable vpc_id {
@@ -13,4 +20,10 @@ variable subnet_ids {
   type = list(string)
   default = []
   description = "A list of Subnet IDs in which resources will be deployed."
+}
+
+variable deployment_name {
+  type = string
+  default = ""
+  description = "An arbitrary name for the deployment."
 }

@@ -4,6 +4,11 @@ provider aws {
 
 data aws_ecr_repository ecr_repo {
   name = local.deployment_name
+  count = var.container_image_name == "" ? 1 : 0
+}
+
+locals {
+  container_image_name = var.container_image_name == "" ? data.aws_ecr_repository.ecr_repo[0].repository_url : var.container_image_name
 }
 
 resource aws_ecs_cluster ecs_cluster {
@@ -66,7 +71,7 @@ resource aws_ecs_task_definition ecs_task {
       "cpu": 256,
       "environment": [],            
       "essential": true,
-      "image": "${data.aws_ecr_repository.ecr_repo.repository_url}:${var.docker_tag}",
+      "image": "${local.container_image_name}:${var.container_image_tag}",
       "logConfiguration": {
           "logDriver": "awslogs",
           "options": {
@@ -103,7 +108,7 @@ resource local_file task_def_file {
 }
 
 resource aws_security_group security_group_web {
-  name = "web"
+  name = var.deployment_name
   ingress {
     cidr_blocks = ["0.0.0.0/0"]
     from_port = 80
