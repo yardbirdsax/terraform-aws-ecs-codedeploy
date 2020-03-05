@@ -33,3 +33,15 @@ variable tags {
   default = {}
   description = "A list of tags to apply to all resources."
 }
+
+variable lb_certificate_arn {
+  type = string
+  default = ""
+  description = "The ARN of a certificate to be used on the Elastic Load Balancer. If blank, an HTTPS listener will not be created."
+}
+
+variable ssl_policy {
+  type = string
+  default = ""
+  description = "The SSL Policy to apply to the ALB. Only used if the 'lb_certificate_arn' variable is set. See https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-https-listener.html#describe-ssl-policies for details."
+}

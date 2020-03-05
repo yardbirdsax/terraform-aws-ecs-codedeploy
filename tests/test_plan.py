@@ -11,6 +11,7 @@ class TestPlan(unittest.TestCase):
   deployment_name = "testdeployment"
   container_image_name = "nginx"
   container_image_tag = "latest"
+  certificate_arn = "arn:aws:cert:something"
   
   @classmethod
   def setUpClass(self):
@@ -22,9 +23,12 @@ class TestPlan(unittest.TestCase):
   def test_alb_uses_subnets(self):
     assert self.tf_output.resources["aws_lb.elb"]['values']['subnets'] == self.subnet_ids
   
-  def test_alb_listener_uses_vpc(self):
+  def test_alb_tg_uses_vpc(self):
     assert self.tf_output.resources["aws_lb_target_group.target_group_blue"]["values"]["vpc_id"] == self.vpc_id
     assert self.tf_output.resources["aws_lb_target_group.target_group_green"]["values"]["vpc_id"] == self.vpc_id
+  
+  def test_alb_listener_uses_cert_arn(self):
+    assert self.tf_output.resources['aws_lb_listener.elb_listener_https[0]']['values']['certificate_arn'] == self.certificate_arn
 
   def test_ecs_task_uses_subnets(self):
     #pprint(self.tf_output.resources["aws_ecs_service.ecs_service"])
