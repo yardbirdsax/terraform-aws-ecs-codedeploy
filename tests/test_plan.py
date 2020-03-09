@@ -26,6 +26,7 @@ class TestPlan(unittest.TestCase):
 
   desired_count = 1
   container_cpu = 512
+  container_memory = 1024
   
   @classmethod
   def setUpClass(self):
@@ -89,6 +90,11 @@ class TestPlan(unittest.TestCase):
     container_defs = json.loads(self.tf_output.resources["aws_ecs_task_definition.ecs_task"]["values"]["container_definitions"])
     assert int(self.tf_output.resources["aws_ecs_task_definition.ecs_task"]["values"]["cpu"]) == self.container_cpu
     assert container_defs[0]['cpu'] == self.container_cpu
+
+  def test_ecs_task_memory(self):
+    container_defs = json.loads(self.tf_output.resources["aws_ecs_task_definition.ecs_task"]["values"]["container_definitions"])
+    assert int(self.tf_output.resources["aws_ecs_task_definition.ecs_task"]["values"]["memory"]) == self.container_memory
+    assert container_defs[0]['memory'] == self.container_memory
 
   def test_ecs_service_count(self):
     assert self.tf_output.resources["aws_ecs_service.ecs_service"]["values"]["desired_count"] == 1

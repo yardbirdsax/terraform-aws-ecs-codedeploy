@@ -63,7 +63,7 @@ JSON
 
 resource aws_ecs_task_definition ecs_task {
   cpu = var.container_cpu
-  memory = 512
+  memory = var.container_memory
 
   container_definitions = <<JSON
 [
@@ -81,7 +81,7 @@ resource aws_ecs_task_definition ecs_task {
               "awslogs-create-group": "true"
           }
       },
-      "memory": 64,
+      "memory": ${var.container_memory},
       "mountPoints": [],
       "name": "${local.deployment_name}",
       "portMappings": [{

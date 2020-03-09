@@ -15,3 +15,4 @@ container_secrets = [
 lb_certificate_arn = "arn:aws:cert:something"
 desired_count = 1
 container_cpu = 512
+container_memory = 1024
