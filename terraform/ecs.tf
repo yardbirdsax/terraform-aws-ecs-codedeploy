@@ -62,13 +62,13 @@ JSON
 }
 
 resource aws_ecs_task_definition ecs_task {
-  cpu = 256
+  cpu = var.container_cpu
   memory = 512
 
   container_definitions = <<JSON
 [
   {
-      "cpu": 256,
+      "cpu": ${var.container_cpu},
       "environment":${jsonencode(var.container_environment_variables)},            
       "essential": true,
       "image": "${local.container_image_name}:${var.container_image_tag}",

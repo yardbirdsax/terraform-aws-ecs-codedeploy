@@ -38,6 +38,11 @@ variable container_secrets {
   default = []
 }
 
+variable container_cpu {
+  type = number
+  description = "The CPU units to assign to the container task. See https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definition_parameters.html#task_size."
+}
+
 variable desired_count {
   type = number
   description = "The number of desired container instances."
