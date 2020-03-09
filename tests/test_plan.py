@@ -23,6 +23,8 @@ class TestPlan(unittest.TestCase):
   secret_var_1_value = "ARN:VALUE"
   secret_var_2_name = "MY_SECOND_SECRET"
   secret_var_2_value = "ARN:VALUE2"
+
+  desired_count = 1
   
   @classmethod
   def setUpClass(self):
@@ -81,3 +83,6 @@ class TestPlan(unittest.TestCase):
     container_defs = json.loads(self.tf_output.resources["aws_ecs_task_definition.ecs_task"]["values"]["container_definitions"])
     assert container_defs[0]['logConfiguration']['options']['awslogs-group'] == f"/ecs/{self.deployment_name}"
     assert container_defs[0]['logConfiguration']['options']['awslogs-region'] == self.aws_region
+
+  def test_ecs_service_count(self):
+    assert self.tf_output.resources["aws_ecs_service.ecs_service"]["values"]["desired_count"] == 1

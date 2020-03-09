@@ -38,6 +38,12 @@ variable container_secrets {
   default = []
 }
 
+variable desired_count {
+  type = number
+  description = "The number of desired container instances."
+  default = 1
+}
+
 variable vpc_id {
   type = string
   default = ""

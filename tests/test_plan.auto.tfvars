@@ -13,3 +13,4 @@ container_secrets = [
   {name = "MY_SECOND_SECRET", valueFrom = "ARN:VALUE2"}
 ]
 lb_certificate_arn = "arn:aws:cert:something"
+desired_count = 1

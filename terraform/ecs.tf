@@ -144,7 +144,7 @@ resource aws_ecs_service ecs_service {
     assign_public_ip = true
     security_groups = [aws_security_group.security_group_web.id]
   }
-  desired_count = 2
+  desired_count = var.desired_count
 
   depends_on = [
     aws_lb_listener.elb_listener
