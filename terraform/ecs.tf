@@ -61,6 +61,13 @@ resource aws_iam_role_policy ecs_task_policy {
 JSON
 }
 
+resource aws_iam_policy_attachment ecs_task_policy_attachments {
+  count = length(var.task_exec_role_policies)
+  name = "${var.deployment_name}-policyattachment-${count.index}"
+  policy_arn = var.task_exec_role_policies[count.index]
+  roles = [ aws_iam_role.ecs_task_role.name ]
+}
+
 resource aws_ecs_task_definition ecs_task {
   cpu = var.container_cpu
   memory = var.container_memory

@@ -56,6 +56,12 @@ variable desired_count {
   default = 1
 }
 
+variable task_exec_role_policies {
+  type = list(string)
+  description = "A list of additional policy ARNs to be attached to the task execution role for the container."
+  default = []
+}
+
 variable vpc_id {
   type = string
   default = ""
