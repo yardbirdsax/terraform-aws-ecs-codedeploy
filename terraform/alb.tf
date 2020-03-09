@@ -67,3 +67,7 @@ resource aws_lb_listener elb_listener_https {
 output alb_url {
   value = "http://${aws_lb.elb.dns_name}"
 }
+
+output alb {
+  value = aws_lb.elb
+}
