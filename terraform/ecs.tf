@@ -12,7 +12,7 @@ locals {
 }
 
 resource aws_ecs_cluster ecs_cluster {
-  name = "codedeploy-ecs-test"
+  name = var.deployment_name
 }
 
 resource aws_iam_role ecs_task_role {
