@@ -69,7 +69,7 @@ class TestPlan(unittest.TestCase):
     assert container_defs[0]['environment'][0]['value'] == self.env_var_1_value
     assert container_defs[0]['environment'][1]['value'] == self.env_var_2_value
 
-  def test_ecs_task_uses_vars(self):
+  def test_ecs_task_uses_secrets(self):
     container_defs = json.loads(self.tf_output.resources["aws_ecs_task_definition.ecs_task"]["values"]["container_definitions"])
     assert len(container_defs[0]['secrets']) == 2
     assert container_defs[0]['secrets'][0]['name'] == self.secret_var_1_name
