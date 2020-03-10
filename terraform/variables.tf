@@ -97,3 +97,9 @@ variable ssl_policy {
   default = ""
   description = "The SSL Policy to apply to the ALB. Only used if the 'lb_certificate_arn' variable is set. See https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-https-listener.html#describe-ssl-policies for details."
 }
+
+variable health_check_path {
+  type = string
+  default = "/"
+  description = "The path to use for the container health check."
+}

@@ -19,3 +19,4 @@ container_memory = 1024
 task_exec_role_policies = [
   "arn:aws:rightpolicy"
 ]
+health_check_path = "/api/health"
