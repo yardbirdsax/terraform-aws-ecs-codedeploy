@@ -58,10 +58,10 @@ class TestPlan(unittest.TestCase):
     assert container_defs[0]["image"] == f"{self.container_image_name}:{self.container_image_tag}"
 
   def test_iam_role_name(self):
-    assert self.tf_output.resources['aws_iam_role.ecs_task_role']['values']['name'] == f"{self.deployment_name}-TaskRole"
+    assert self.tf_output.resources['aws_iam_role.ecs_task_execution_role']['values']['name'] == f"{self.deployment_name}-TaskExecutionRole"
   
   def test_iam_policy_name(self):
-    assert self.tf_output.resources['aws_iam_role_policy.ecs_task_policy']['values']['name'] == f"{self.deployment_name}-TaskPolicy"
+    assert self.tf_output.resources['aws_iam_role_policy.ecs_task_execution_policy']['values']['name'] == f"{self.deployment_name}-TaskExecutionPolicy"
 
   def test_security_group_vpc_id(self):
     assert self.tf_output.resources['aws_security_group.security_group_web']['values']['vpc_id'] == self.vpc_id
@@ -97,10 +97,10 @@ class TestPlan(unittest.TestCase):
     assert int(self.tf_output.resources["aws_ecs_task_definition.ecs_task"]["values"]["memory"]) == self.container_memory
     assert container_defs[0]['memory'] == self.container_memory
 
-  def test_ecs_task_execution_role_policy(self):
+  def test_ecs_task_role_policy(self):
     values = self.tf_output.resources['aws_iam_policy_attachment.ecs_task_policy_attachments[0]']['values']
     assert values['policy_arn'] == self.task_policy_arn
-    assert values['roles'][0] == f"{self.deployment_name}-TaskRole"
+    assert values['roles'][0] == f"{self.deployment_name}-TaskExecutionRole"
 
   def test_ecs_service_count(self):
     assert self.tf_output.resources["aws_ecs_service.ecs_service"]["values"]["desired_count"] == 1

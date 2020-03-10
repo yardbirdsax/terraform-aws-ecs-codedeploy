@@ -15,8 +15,8 @@ resource aws_ecs_cluster ecs_cluster {
   name = var.deployment_name
 }
 
-resource aws_iam_role ecs_task_role {
-  name = "${var.deployment_name}-TaskRole"
+resource aws_iam_role ecs_task_execution_role {
+  name = "${var.deployment_name}-TaskExecutionRole"
   assume_role_policy = <<JSON
 {
   "Version": "2012-10-17",
@@ -34,9 +34,9 @@ resource aws_iam_role ecs_task_role {
 JSON
 }
 
-resource aws_iam_role_policy ecs_task_policy {
-  name = "${var.deployment_name}-TaskPolicy"
-  role = aws_iam_role.ecs_task_role.name
+resource aws_iam_role_policy ecs_task_execution_policy {
+  name = "${var.deployment_name}-TaskExecutionPolicy"
+  role = aws_iam_role.ecs_task_execution_role.name
   policy = <<JSON
 {
   "Version":"2012-10-17",
@@ -65,7 +65,7 @@ resource aws_iam_policy_attachment ecs_task_policy_attachments {
   count = length(var.task_exec_role_policies)
   name = "${var.deployment_name}-policyattachment-${count.index}"
   policy_arn = var.task_exec_role_policies[count.index]
-  roles = [ aws_iam_role.ecs_task_role.name ]
+  roles = [ aws_iam_role.ecs_task_execution_role.name ]
 }
 
 resource aws_ecs_task_definition ecs_task {
@@ -105,7 +105,7 @@ JSON
   family = local.deployment_name
   requires_compatibilities = ["FARGATE"]
   network_mode = "awsvpc"
-  execution_role_arn = aws_iam_role.ecs_task_role.arn
+  execution_role_arn = aws_iam_role.ecs_task_execution_role.arn
   
 }
 
