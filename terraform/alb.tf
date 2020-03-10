@@ -17,6 +17,7 @@ resource aws_lb_target_group target_group_blue {
     healthy_threshold = 2
     interval = 10
     path = var.health_check_path
+    timeout = var.health_check_timeout
   }
   protocol = "HTTP"
   port = 80
@@ -33,6 +34,7 @@ resource aws_lb_target_group target_group_green {
     healthy_threshold = 2
     interval = 10
     path = var.health_check_path
+    timeout = var.health_check_timeout
   }
   protocol = "HTTP"
   port = 80

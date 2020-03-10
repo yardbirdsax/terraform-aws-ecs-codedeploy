@@ -103,3 +103,9 @@ variable health_check_path {
   default = "/"
   description = "The path to use for the container health check."
 }
+
+variable health_check_timeout {
+  type = number
+  default = 30
+  description = "The number of seconds to wait for a response from the health check endpoint."
+}
