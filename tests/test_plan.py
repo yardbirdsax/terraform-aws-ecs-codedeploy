@@ -42,6 +42,13 @@ class TestPlan(unittest.TestCase):
     self.tf.setup(extra_files=['./test_plan.auto.tfvars'])
     self.tf_output = self.tf.plan(output=True)
 
+  def test_security_group_allows_ports(self):
+    security_group = self.tf_output.resources['aws_security_group.security_group_web']['values']
+    assert security_group['ingress'][1]['from_port'] == 80
+    assert security_group['ingress'][1]['to_port'] == 80
+    assert security_group['ingress'][0]['from_port'] == 443
+    assert security_group['ingress'][0]['to_port'] == 443
+  
   def test_alb_uses_subnets(self):
     assert self.tf_output.resources["aws_lb.elb"]['values']['subnets'] == self.subnet_ids
   
@@ -72,7 +79,6 @@ class TestPlan(unittest.TestCase):
     assert self.tf_output.resources["aws_security_group.security_group_web"]["values"]["name"] == self.deployment_name
   
   def test_ecs_service_uses_additional_security_groups(self):
-    pprint(self.tf_output.resources['aws_ecs_service.ecs_service']['values']['network_configuration'][0])
     security_groups = self.tf_output.resources['aws_ecs_service.ecs_service']['values']['network_configuration'][0]['security_groups']
     assert security_groups[0] == self.security_group_id
 
