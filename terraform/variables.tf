@@ -115,3 +115,9 @@ variable health_check_interval {
   default = 10
   description = "The number of seconds in between health checks."
 }
+
+variable security_group_ids {
+  type = list(string)
+  description = "A list of security group IDs that should be assigned to the ECS tasks. If left blank, then a new security group will be created with basic HTTP ingress rules."
+  default = []
+}

@@ -22,3 +22,6 @@ task_exec_role_policies = [
 health_check_path = "/api/health"
 health_check_timeout = 30
 health_check_interval = 60
+security_group_ids = [
+  "securitygroup-1234"
+]

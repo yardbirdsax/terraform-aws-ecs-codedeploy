@@ -133,6 +133,10 @@ resource aws_security_group security_group_web {
   
 }
 
+locals {
+  security_group_ids = length(var.security_group_ids) == 0 ? [aws_security_group.security_group_web.id] : var.security_group_ids
+}
+
 resource aws_ecs_service ecs_service {
   name = local.deployment_name
   cluster = aws_ecs_cluster.ecs_cluster.arn
@@ -149,7 +153,7 @@ resource aws_ecs_service ecs_service {
   network_configuration {
     subnets = var.subnet_ids
     assign_public_ip = true
-    security_groups = [aws_security_group.security_group_web.id]
+    security_groups = local.security_group_ids
   }
   desired_count = var.desired_count
 

@@ -32,6 +32,8 @@ class TestPlan(unittest.TestCase):
   health_check_path = "/api/health"
   health_check_timeout = 30
   health_check_interval = 60
+
+  security_group_id = "securitygroup-1234"
   
   @classmethod
   def setUpClass(self):
@@ -68,6 +70,11 @@ class TestPlan(unittest.TestCase):
 
   def test_security_group_name(self):
     assert self.tf_output.resources["aws_security_group.security_group_web"]["values"]["name"] == self.deployment_name
+  
+  def test_ecs_service_uses_additional_security_groups(self):
+    pprint(self.tf_output.resources['aws_ecs_service.ecs_service']['values']['network_configuration'][0])
+    security_groups = self.tf_output.resources['aws_ecs_service.ecs_service']['values']['network_configuration'][0]['security_groups']
+    assert security_groups[0] == self.security_group_id
 
   def test_ecs_task_uses_docker_image(self):
     container_defs = json.loads(self.tf_output.resources["aws_ecs_task_definition.ecs_task"]["values"]["container_definitions"])
