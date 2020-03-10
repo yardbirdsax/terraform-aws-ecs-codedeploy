@@ -48,6 +48,10 @@ resource aws_s3_bucket codedeploy_s3 {
   tags = var.tags
 }
 
+locals {
+  deployment_group_listeners = var.lb_certificate_arn == "" ? [ aws_lb_listener.elb_listener.arn ] : [ aws_lb_listener.elb_listener_https[0].arn ]
+}
+
 resource aws_codedeploy_deployment_group deploy_group {
   app_name = aws_codedeploy_app.app.name
   deployment_group_name = local.deployment_name
@@ -60,7 +64,7 @@ resource aws_codedeploy_deployment_group deploy_group {
   load_balancer_info {
     target_group_pair_info {
       prod_traffic_route {
-        listener_arns = [aws_lb_listener.elb_listener.arn]
+        listener_arns = local.deployment_group_listeners
       }
 
       target_group {

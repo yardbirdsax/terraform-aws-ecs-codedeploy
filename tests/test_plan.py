@@ -126,8 +126,13 @@ class TestPlan(unittest.TestCase):
     assert int(self.tf_output.resources["aws_ecs_task_definition.ecs_task"]["values"]["memory"]) == self.container_memory
     assert container_defs[0]['memory'] == self.container_memory
 
+  def test_ecs_task_execution_role_policy(self):
+    values = self.tf_output.resources['aws_iam_policy_attachment.ecs_task_execution_policy_attachments[0]']['values']
+    assert values['policy_arn'] == self.task_policy_arn
+    assert values['roles'][0] == f"{self.deployment_name}-TaskExecutionRole"
+
   def test_ecs_task_role_policy(self):
-    values = self.tf_output.resources['aws_iam_policy_attachment.ecs_task_policy_attachments[0]']['values']
+    values = self.tf_output.resources['aws_iam_policy_attachment.ecs_task_execution_policy_attachments[0]']['values']
     assert values['policy_arn'] == self.task_policy_arn
     assert values['roles'][0] == f"{self.deployment_name}-TaskExecutionRole"
 

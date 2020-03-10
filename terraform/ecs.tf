@@ -61,7 +61,7 @@ resource aws_iam_role_policy ecs_task_execution_policy {
 JSON
 }
 
-resource aws_iam_policy_attachment ecs_task_policy_attachments {
+resource aws_iam_policy_attachment ecs_task_execution_policy_attachments {
   count = length(var.task_exec_role_policies)
   name = "${var.deployment_name}-policyattachment-${count.index}"
   policy_arn = var.task_exec_role_policies[count.index]
