@@ -51,6 +51,12 @@ resource aws_lb_listener elb_listener {
     type = "forward"
     target_group_arn = aws_lb_target_group.target_group_blue.arn
   }
+
+  lifecycle {
+    ignore_changes = [
+      default_action[0].target_group_arn
+    ]
+  }
 }
 
 resource aws_lb_listener elb_listener_https {
@@ -64,6 +70,12 @@ resource aws_lb_listener elb_listener_https {
   }
   certificate_arn = var.lb_certificate_arn
   ssl_policy = var.ssl_policy == "" ? "ELBSecurityPolicy-TLS-1-2-2017-01" : var.ssl_policy
+
+  lifecycle {
+    ignore_changes = [
+      default_action[0].target_group_arn
+    ]
+  }
 }
 
 output alb_url {
