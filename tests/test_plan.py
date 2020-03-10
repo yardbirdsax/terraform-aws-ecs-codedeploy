@@ -30,7 +30,8 @@ class TestPlan(unittest.TestCase):
   task_policy_arn = "arn:aws:rightpolicy"
 
   health_check_path = "/api/health"
-  health_check_timeout = 60
+  health_check_timeout = 30
+  health_check_interval = 60
   
   @classmethod
   def setUpClass(self):
@@ -56,6 +57,10 @@ class TestPlan(unittest.TestCase):
   def test_alb_target_group_uses_health_timeout(self):
     assert self.tf_output.resources['aws_lb_target_group.target_group_green']['values']['health_check'][0]['timeout'] == self.health_check_timeout
     assert self.tf_output.resources['aws_lb_target_group.target_group_blue']['values']['health_check'][0]['timeout'] == self.health_check_timeout
+  
+  def test_alb_target_group_uses_health_interval(self):
+    assert self.tf_output.resources['aws_lb_target_group.target_group_green']['values']['health_check'][0]['interval'] == self.health_check_interval
+    assert self.tf_output.resources['aws_lb_target_group.target_group_blue']['values']['health_check'][0]['interval'] == self.health_check_interval
 
   def test_ecs_task_uses_subnets(self):
     #pprint(self.tf_output.resources["aws_ecs_service.ecs_service"])

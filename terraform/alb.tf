@@ -15,7 +15,7 @@ resource aws_lb_target_group target_group_blue {
   health_check {
     enabled = true
     healthy_threshold = 2
-    interval = 10
+    interval = var.health_check_interval
     path = var.health_check_path
     timeout = var.health_check_timeout
   }
@@ -32,7 +32,7 @@ resource aws_lb_target_group target_group_green {
   health_check {
     enabled = true
     healthy_threshold = 2
-    interval = 10
+    interval = var.health_check_interval
     path = var.health_check_path
     timeout = var.health_check_timeout
   }

@@ -106,6 +106,12 @@ variable health_check_path {
 
 variable health_check_timeout {
   type = number
-  default = 30
+  default = 5
   description = "The number of seconds to wait for a response from the health check endpoint."
+}
+
+variable health_check_interval {
+  type = number
+  default = 10
+  description = "The number of seconds in between health checks."
 }

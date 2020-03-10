@@ -20,4 +20,5 @@ task_exec_role_policies = [
   "arn:aws:rightpolicy"
 ]
 health_check_path = "/api/health"
-health_check_timeout = 60
+health_check_timeout = 30
+health_check_interval = 60
