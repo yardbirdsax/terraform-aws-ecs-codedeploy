@@ -58,7 +58,13 @@ variable desired_count {
 
 variable task_exec_role_policies {
   type = list(string)
-  description = "A list of additional policy ARNs to be attached to the task execution role for the container."
+  description = "A list of additional policy ARNs to be attached to the task execution role for the ECS tasks."
+  default = []
+}
+
+variable task_role_policies {
+  type = list(string)
+  description = "A list of policie ARNs to be attached to the task role for the ECS tasks."
   default = []
 }
 

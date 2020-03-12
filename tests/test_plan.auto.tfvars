@@ -19,6 +19,9 @@ container_memory = 1024
 task_exec_role_policies = [
   "arn:aws:rightpolicy"
 ]
+task_role_policies = [
+  "arn:aws:righttaskpolicy"
+]
 health_check_path = "/api/health"
 health_check_timeout = 30
 health_check_interval = 60

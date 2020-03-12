@@ -27,7 +27,9 @@ class TestPlan(unittest.TestCase):
   desired_count = 1
   container_cpu = 512
   container_memory = 1024
-  task_policy_arn = "arn:aws:rightpolicy"
+  
+  task_execution_policy_arn = "arn:aws:rightpolicy"
+  task_policy_arn = "arn:aws:righttaskpolicy"
 
   health_check_path = "/api/health"
   health_check_timeout = 30
@@ -127,14 +129,14 @@ class TestPlan(unittest.TestCase):
     assert container_defs[0]['memory'] == self.container_memory
 
   def test_ecs_task_execution_role_policy(self):
-    values = self.tf_output.resources['aws_iam_policy_attachment.ecs_task_execution_policy_attachments[0]']['values']
-    assert values['policy_arn'] == self.task_policy_arn
-    assert values['roles'][0] == f"{self.deployment_name}-TaskExecutionRole"
+    values = self.tf_output.resources['aws_iam_role_policy_attachment.ecs_task_execution_policy_attachments[0]']['values']
+    assert values['policy_arn'] == self.task_execution_policy_arn
+    assert values['role'] == f"{self.deployment_name}-TaskExecutionRole"
 
   def test_ecs_task_role_policy(self):
-    values = self.tf_output.resources['aws_iam_policy_attachment.ecs_task_execution_policy_attachments[0]']['values']
+    values = self.tf_output.resources['aws_iam_role_policy_attachment.ecs_task_policy_attachments[0]']['values']
     assert values['policy_arn'] == self.task_policy_arn
-    assert values['roles'][0] == f"{self.deployment_name}-TaskExecutionRole"
+    assert values['role'] == f"{self.deployment_name}-TaskRole"
 
   def test_ecs_service_count(self):
     assert self.tf_output.resources["aws_ecs_service.ecs_service"]["values"]["desired_count"] == 1

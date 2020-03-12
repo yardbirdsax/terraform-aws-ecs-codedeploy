@@ -61,11 +61,35 @@ resource aws_iam_role_policy ecs_task_execution_policy {
 JSON
 }
 
-resource aws_iam_policy_attachment ecs_task_execution_policy_attachments {
+resource aws_iam_role_policy_attachment ecs_task_execution_policy_attachments {
   count = length(var.task_exec_role_policies)
-  name = "${var.deployment_name}-policyattachment-${count.index}"
   policy_arn = var.task_exec_role_policies[count.index]
-  roles = [ aws_iam_role.ecs_task_execution_role.name ]
+  role = aws_iam_role.ecs_task_execution_role.name
+}
+
+resource aws_iam_role ecs_task_role {
+  name = "${var.deployment_name}-TaskRole"
+  assume_role_policy = <<JSON
+{
+  "Version": "2012-10-17",
+  "Statement": [
+      {
+      "Action": "sts:AssumeRole",
+      "Principal": {
+          "Service": ["ecs-tasks.amazonaws.com"]
+      },
+      "Effect": "Allow",
+      "Sid": ""
+      }
+  ]
+}
+JSON
+}
+
+resource aws_iam_role_policy_attachment ecs_task_policy_attachments {
+  count = length(var.task_role_policies)
+  policy_arn = var.task_role_policies[count.index]
+  role = aws_iam_role.ecs_task_role.name
 }
 
 resource aws_ecs_task_definition ecs_task {
@@ -106,6 +130,7 @@ JSON
   requires_compatibilities = ["FARGATE"]
   network_mode = "awsvpc"
   execution_role_arn = aws_iam_role.ecs_task_execution_role.arn
+  task_role_arn = aws_iam_role.ecs_task_role.arn
   
 }
 
