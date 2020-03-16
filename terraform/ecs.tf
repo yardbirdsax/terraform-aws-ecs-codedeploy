@@ -1,6 +1,6 @@
-provider aws {
-  region = var.aws_region_name
-}
+# provider aws {
+#   region = var.aws_region_name
+# }
 
 data aws_ecr_repository ecr_repo {
   name = local.deployment_name
