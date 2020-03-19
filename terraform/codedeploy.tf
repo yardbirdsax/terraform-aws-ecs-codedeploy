@@ -60,6 +60,7 @@ resource aws_codedeploy_deployment_group deploy_group {
     cluster_name = aws_ecs_cluster.ecs_cluster.name
     service_name = aws_ecs_service.ecs_service.name
   }
+  autoscaling_groups = []
   service_role_arn = aws_iam_role.codedeploy_role.arn
   load_balancer_info {
     target_group_pair_info {
