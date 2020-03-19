@@ -127,3 +127,9 @@ variable security_group_ids {
   description = "A list of security group IDs that should be assigned to the ECS tasks. If left blank, then a new security group will be created with basic HTTP ingress rules."
   default = []
 }
+
+variable termination_wait_time {
+  type = number
+  description = "The number of minutes to wait before terminating the previous task set after a successful deployment."
+  default = 5
+}

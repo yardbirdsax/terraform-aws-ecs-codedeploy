@@ -28,3 +28,4 @@ health_check_interval = 60
 security_group_ids = [
   "securitygroup-1234"
 ]
+termination_wait_time = 1

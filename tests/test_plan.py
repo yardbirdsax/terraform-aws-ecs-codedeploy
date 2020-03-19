@@ -36,6 +36,8 @@ class TestPlan(unittest.TestCase):
   health_check_interval = 60
 
   security_group_id = "securitygroup-1234"
+
+  terminate_wait_time = 1
   
   @classmethod
   def setUpClass(self):
@@ -140,3 +142,7 @@ class TestPlan(unittest.TestCase):
 
   def test_ecs_service_count(self):
     assert self.tf_output.resources["aws_ecs_service.ecs_service"]["values"]["desired_count"] == 1
+
+  def test_codedeploy_termination_period(self):
+    pprint(self.tf_output.resources['aws_codedeploy_deployment_group.deploy_group']['values'])
+    assert self.tf_output.resources['aws_codedeploy_deployment_group.deploy_group']['values']['blue_green_deployment_config'][0]['terminate_blue_instances_on_deployment_success'][0]['termination_wait_time_in_minutes'] == self.terminate_wait_time
