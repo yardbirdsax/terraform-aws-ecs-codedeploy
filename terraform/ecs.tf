@@ -196,7 +196,8 @@ resource aws_ecs_service ecs_service {
     ignore_changes = [
       load_balancer,
       task_definition,
-      network_configuration
+      network_configuration,
+      desired_count
     ]
   }
 }
