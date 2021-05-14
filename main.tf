@@ -1,3 +1,12 @@
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">3"
+    }
+  }
+}
+
 locals {
   deployment_name = var.deployment_name == "" ? "nginx-test" : var.deployment_name
 }
