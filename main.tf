@@ -5,6 +5,8 @@ terraform {
       version = ">3"
     }
   }
+
+  required_version = ">=0.12.31"
 }
 
 locals {
