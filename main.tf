@@ -40,6 +40,7 @@ locals {
   deployment_group_listeners  = var.lb_certificate_arn == "" ? [ aws_lb_listener.elb_listener.arn ] : [ aws_lb_listener.elb_listener_https[0].arn ]
   container_image_name        = var.container_image_name == "" ? data.aws_ecr_repository.ecr_repo[0].repository_url : var.container_image_name
   security_group_ids          = length(var.security_group_ids) == 0 ? [aws_security_group.security_group_web.id] : var.security_group_ids
+  subnet_ids                  = length(var.subnet_ids) == 0 ? flatten(data.aws_subnet.subnet.*.id) : var.subnet_ids
 }
 
 resource aws_security_group security_group_web {
@@ -70,7 +71,7 @@ resource aws_security_group security_group_web {
 resource aws_lb elb {
   name = local.deployment_name
   load_balancer_type = "application"
-  subnets = var.subnet_ids
+  subnets = local.subnet_ids
   enable_cross_zone_load_balancing = true
   security_groups = [aws_security_group.security_group_web.id]
 
@@ -90,7 +91,7 @@ resource aws_lb_target_group target_group_blue {
   }
   protocol = "HTTP"
   port = 80
-  vpc_id = var.vpc_id
+  vpc_id = local.vpc_id
 
   tags = var.tags
 }
@@ -107,7 +108,7 @@ resource aws_lb_target_group target_group_green {
   }
   protocol = "HTTP"
   port = 80
-  vpc_id = var.vpc_id
+  vpc_id = local.vpc_id
 
   tags = var.tags
 }
@@ -377,7 +378,7 @@ resource aws_ecs_service ecs_service {
     target_group_arn = aws_lb_target_group.target_group_blue.arn
   }
   network_configuration {
-    subnets = var.subnet_ids
+    subnets = local.subnet_ids
     assign_public_ip = true
     security_groups = local.security_group_ids
   }
