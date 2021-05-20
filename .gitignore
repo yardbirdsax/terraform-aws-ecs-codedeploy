@@ -1,6 +1,6 @@
 **/.terraform*
 *.tfstate*
-terraform/build
+**/build
 tests/__pycache__
 tests/.pytest*
 tests/*.log
