@@ -362,7 +362,7 @@ JSON
 
 resource local_file task_def_file {
   content = templatefile("${path.module}/appspec.yml", {task_arn = aws_ecs_task_definition.ecs_task.arn, deployment_name = local.deployment_name})
-  filename = "${path.module}/build/appspec.yml"
+  filename = "${path.module}/terraform/build/appspec.yml"
 }
 
 resource aws_ecs_service ecs_service {
