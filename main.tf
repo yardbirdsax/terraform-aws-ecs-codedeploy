@@ -74,6 +74,7 @@ resource aws_lb elb {
   subnets = local.subnet_ids
   enable_cross_zone_load_balancing = true
   security_groups = [aws_security_group.security_group_web.id]
+  idle_timeout = var.alb_idle_timeout_seconds
 
   tags = var.tags
 

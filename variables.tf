@@ -133,3 +133,9 @@ variable termination_wait_time {
   description = "The number of minutes to wait before terminating the previous task set after a successful deployment."
   default = 5
 }
+
+variable "alb_idle_timeout_seconds" {
+  type = number
+  description = "The number of seconds to set the ALB idle timeout value to."
+  default = 60
+}
