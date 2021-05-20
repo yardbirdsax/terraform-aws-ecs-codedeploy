@@ -11,6 +11,6 @@ terraform {
 module "ecs_codedeploy" {
   source = "../../"
   container_image_name = "nginx-test"
-  container_image_tag  = "1.0"
+  container_image_tag  = var.docker_tag
   deployment_name      = "awsecswithcodedeploybasic"
 }
