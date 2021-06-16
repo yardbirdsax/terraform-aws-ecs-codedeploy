@@ -1,7 +1,7 @@
-**/.terraform*
+.terraform*
 *.tfstate*
-**/build
-tests/__pycache__
-tests/.pytest*
-tests/*.log
-tests/*.txt
+build
+__pycache__
+/tests/.pytest*
+/tests/*.log
+/tests/*.txt
